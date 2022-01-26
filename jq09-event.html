@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        div{
+            width: 400px;
+            height: 200px;
+            border: 2px solid red;
+            padding: 20px;
+            overflow: auto;
+        }
+        div p:first-child{
+            float: left;
+            border: 1px solid blue;
+            width: 150px;
+            height: 150px;
+            text-align: center;
+            line-height: 150px;
+        }
+        div p:last-child{
+            float: right;
+            border: 1px solid blue;
+            width: 150px;
+            height: 150px;
+            text-align: center;
+            line-height: 150px;
+        }
+
+    </style>
+
+    <script src="resources/js/jquery-3.6.0.min(compressed).js"></script>
+
+    <script>
+        /*
+            이벤트 전파 : 각 요소가 서로 포함관계(중첩)인 경우
+                        요소 중 하나에 이벤트가 발생하면
+                        중첩된 요소들도 이벤트가 전파된다
+            
+            이벤트 전파 막기
+                - stopPropagation() : 이벤트 요소의 전파 막기
+                - preventDefault() : 이벤트에 의한 기본 동작 막기
+                - return false : 위의 기능 두개 모두 적용
+        */
+
+       $(function(){
+           $("a:eq(0)").click(function(e){   // 이벤트 진행한 이후 기본동작 (a href) 진행. 여기서 e는 삭제 가능
+               alert("a 클릭!")
+               // e.stopPropagation()   // 이벤트의 전파를 막음
+               // e.preventDefault()   // 기본 동작을 막음 ---> (a href 네이버 로 진행 안됨)
+               return false  // -> 이벤트의 전달도 막고, 기본 동작도 막음
+           })
+
+           $("p").click(function(e){
+               alert("p 클릭!")
+               e.preventDefault()   // e : 여기서 a태그를 의미   (!= this: 나 객체)
+           })
+
+           $("div").click(function(){
+               alert("div 클릭!")
+           })
+
+           /*
+           // Attach a handler to an event for the elements
+           $("a:eq(1)").bind("mouseover mouseout", function(e){
+               if(e.type == "mouseover"){
+                   $(this).css("background-color", "hotpink")
+               }
+               if(e.type == "mouseout"){
+                   $(this).css("background-color", "")
+               }
+           })
+           */   
+           $("a:eq(1)").bind({
+               "mouseover": function(){
+                   $(this).css("color", "gold")
+               },
+               "mouseout": function(){
+                   $(this).css("color", "")
+               }
+           })
+
+
+           $("span").click(function(){
+               $("a:eq(1)").unbind()
+           })
+
+           $("button").click(function(){
+               $("body").append("<p>새로 추가된 p</p>")
+           })
+
+           $("body").on("click", "p", function(){
+               alert("새로 추가되는 요소도 이벤트 적용!")
+           })
+           // JS : addEventListerner 사용
+           // $("p").on("click", function(){}); : 이미 만들어진 p태그에 click 이벤트를 걸겠다
+
+       })
+
+    </script>
+
+</head>
+<body>
+    
+    <span>unbind() : 이벤트 해제</span>
+    <div>
+        <p>
+            <a href="https://www.naver.com">클릭!</a>
+        </p>
+        <p>클릭</p>
+    </div>
+
+    <div>
+        <p>
+            <a href="https://www.google.com">클릭!</a>
+        </p>
+        <p>클릭</p>
+    </div>
+
+    <button>요소 추가</button>
+
+    <!-- 이벤트 바인딩(event binding) : 이벤트 핸들러를 특정 요소에 연결하는 것
+        
+        예제) id가 "btn"인 요소에 클릭(click) 이벤트 핸들러를 바인딩하는 다양한 방법 
+        $("#btn").click(function(event) { // 실행하고자 하는 jQuery 코드 });
+        $("#btn").bind("click", function(event) { // 실행하고자 하는 jQuery 코드 });
+        $("#btn").on("click", function(event) { // 실행하고자 하는 jQuery 코드 });
+        $("body").on({"click": function(event) { // 실행하고자 하는 jQuery 코드 }}, "#btn");
+        $("body").on("click", "#btn", function(event) { // 실행하고자 하는 jQuery 코드 });   -->
+
+</body>
+</html>

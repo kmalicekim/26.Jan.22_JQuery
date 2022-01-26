@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        img{
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+
+    <script src="resources/js/jquery-3.6.0.min(compressed).js"></script>   <!-- 사이에 코드 넣으면 안됨!-->
+
+    <script>
+        /*
+            jquery 기본 작성법
+            -> Selector 표현식
+            jQuery("selector").method()
+            $("selector").method()
+            -> $("p").css("color", "red")
+
+            기능 구현 방법
+            (javascript 에서는)
+            onload = function(){}
+
+            -> (jquery 에서는)
+            $(function(){
+            })
+
+            혹은
+
+            $(document).ready(function(){
+            })
+        */
+
+        $(function(){
+            $("#test-btn").click(function(){
+                alert("클릭했음!")
+            })
+
+            $("img").click(function(){
+                $(this).hide()   // this: click이벤트가 발생한 요소를 ---> <img src="resources/imgs/img01.jpg" alt="img01" style="display: none;"> 이 되었음
+            })
+        })
+
+        function showImg(){
+            // 감춰진 그림을 보이게
+            $("img").show()
+        }
+
+        function resizeImg(){
+            // 100 100 으로 변경
+            // $("img").css("width", "100px").css("height", "100px")
+            $("img").css({"width": "100px", "height": "100px"})   // 중괄호 넣고 딕셔너리 형식으로 이어서 사용도 가능
+        }
+
+        function addImg(){
+            $("img").last().after("<img src = 'resources/imgs/img01.jpg'>")  // img에서 가장 마지막 요소(img)에 after뒤의 src 가라
+        }
+
+        function toggleImg(){
+            // 보였다 안보였다
+            $("img").toggle()  // Display or hide the matched elements.
+        }
+    </script>
+
+</head>
+<body>
+    
+    <h1>JQuery : javascript library</h1>  <!-- library = module (기능들의 묶음)-->
+
+    <button id="test-btn">click me</button>
+    <br>
+    <button onclick="showImg()">이미지 보이기</button>
+    <button onclick="resizeImg()">이미지 축소</button>
+    <button onclick="addImg()">이미지 추가</button>
+    <button onclick="toggleImg()">이미지 숨기기/보이기</button>
+    <br>
+    <br>
+    <div>
+        <img src="resources/imgs/img01.jpg" alt="img01">
+    </div>
+
+</body>
+</html>

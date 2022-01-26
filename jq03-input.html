@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="resources/js/jquery-3.6.0.min(compressed).js"></script>
+
+    <script>
+        function inputText(){
+            var txt = $("input:text").val()  // input 태그 중 type이 text인 element를 가지고 와
+            // JS : value()
+            // JQ : val()
+            alert(txt)
+        }
+
+        function inputRadio(){
+            var radioVal = $("input:radio").val()
+            $("#a").html(radioVal)
+            // JS : innerHTML
+            // JQ : html()
+        }
+
+        function inputCheck(){
+            var checkVal = $("input:checkbox").val()
+            $("#a").html(checkVal)
+        }
+
+        /*  body 부분을 읽은 후 해당 JQ를 읽을 수 있으므로 $(function(){}) 안에 해당 JQ 넣어주어야 함! (JC 에서 onload = function(){})
+        $(function(){
+            $("select").change(function(){
+            var option = $("select > option:selected")
+            alert(option.val())
+            alert($("select > option").index(option))
+            })
+        })
+        */
+
+    </script>
+
+
+</head>
+<body>
+
+    <form>
+        <input type="text">
+        <br>
+        <input type="button" value="선택" onclick="inputText()">
+        <br>
+        <input type="radio" value="radio val" onclick="inputRadio()">radio
+        <br>
+        <input type="checkbox" value="check val" onclick="inputCheck()">check
+        <br>
+        <div id="a"></div>
+        <select>
+            <option value="one">1</option>
+            <option value="two">2</option>
+            <option value="three">3</option>
+        </select>
+
+    </form>
+
+    <script>
+        // change : 셀렉터를 정하여 해당 셀렉터의 값이 변할경우 변화를 캐치하는 이벤트
+        $("select").change(function(){
+            var option = $("select > option:selected")
+            alert(option.val())
+            alert($("select > option").index(option))
+            })
+    </script>
+    
+    
+</body>
+</html>

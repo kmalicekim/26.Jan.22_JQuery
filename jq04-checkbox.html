@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="resources/js/jquery-3.6.0.min(compressed).js"></script>
+
+    <script>
+        $(function(){
+            $("#signal").submit(function(){      // on-submit 이라고 이해
+                if($(".infobox").val() == null || $(".infobox").val() == ""){
+                    $(".error").show()
+                    return false  // 이벤트의 전파를 막는다 (submit 이 안됨)
+                }
+            })   // submit 이벤트가 발생했을 때 function() 을 해줌 JS : onsubmit()
+
+            $("#confirm").click(function(){
+                $("#result").empty()
+
+                // checkbox 중 checked 되어있는 요소들을 가지고 와서
+                // .each() 를 사용하여 해당 요소들의 가격을 가져오고
+                // .each() : A function to execute for each matched element/ each()앞의 애는 반복가능함. 
+                // 그 아이들에게 각각 each안의 함수를 적용 (map과 비슷한 기능!)
+                
+                var total = 0
+                $("input[name = chk]:checked").each(function(i){
+                    // console.log(i) // 0,1,2
+                    // var chk = $(this)    // 위에서 가져온 하나
+                    var chk = $("input[name=chk]:checked").eq(i)
+                    // console.log(chk)
+
+                    var book = chk.next().text()   // .next() : 자신의 형제들 중 내 옆 형제 (chk : 체크박스 - 의 옆)
+                    var price = chk.val()     // .val() -> 문자열로 가지고 옴
+                    $("#result").append(book + " : "+ price + "<br>")
+
+                 // 더해서
+                total += parseInt(price)
+                })    
+
+            // id가 result인 요소의 안에 값을 출력하자
+            $("#result").append(total)
+            })
+
+
+            // 과제 1: 모두 선택되어있으면 name이 all인 체크박스도 체크
+            $("input[name=chk]").click(function(){
+                var total = $("input[name=chk]").length
+                var checked = $("input[name=chk]:checked").length
+
+                if (total != checked){
+                    $("input[name=all]").prop("checked", false)
+                }else{
+                    $("input[name=all]").prop("checked", true)
+                }
+            })
+        })
+
+        // 과제 2 : 하나라도 체크 해제되면 name이 all인 체크박스 체크 해제 & name이 all인 체크박스 체크하면 모두 자동 선택
+            function allChk(bool){
+                $("input[name=all]").click(function(){
+                    if ($("input[name=all]").prop("checked", true)){
+                        $("input[name=chk]").prop("checked", true)
+                    }else{
+                        $("input[name=chk]").prop("checked", false)
+                    }
+                })                
+        }
+
+    </script>
+
+</head>
+<body>
+
+    <form id="signal">
+        <div>
+            <span class="label">User ID</span>
+            <input type="text" class="infobox" name="userid">
+            <span class="error" hidden="" style="color: red">반드시 입력하세요!</span>  <!-- submit 이벤트 발생시 hidden이 풀어지고 show-->
+        </div>
+        <input type="submit" class="submit" value="입력">
+    </form>
+
+    <hr>
+    <fieldset style="width: 300px;">
+        <legend>체크 여부 확인</legend>
+
+        <input type="checkbox" name="all" onclick="allChk(this.checked)">전체선택
+        <br>
+        <input type="checkbox" name="chk" value="20000"><b>python</b>
+        <br>
+        <input type="checkbox" name="chk" value="25000"><b>pandas</b>
+        <br>
+        <input type="checkbox" name="chk" value="30000"><b>django</b>
+        <br><br>
+
+        <input type="button" id="confirm" value="확인">
+        <br><br>
+
+        <span>선택한 책 가격</span>
+        <div id="result"></div>
+
+    </fieldset>
+    
+</body>
+</html>
